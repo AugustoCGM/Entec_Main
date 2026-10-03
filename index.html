@@ -69,15 +69,19 @@
             box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
         }
 
-        /* Letreiro Marquee Animado */
-        @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
+      /* Faixa Animada com Background Infinito */
+        @keyframes bg-scroll {
+            0% { background-position: 0 0; }
+            100% { background-position: -1000px 0; } /* Ajuste os 1000px dependendo da largura real da sua imagem */
         }
-        .animate-marquee {
-            display: inline-flex;
-            white-space: nowrap;
-            animation: marquee 20s linear infinite;
+        .animate-bg-scroll {
+            width: 100%;
+            /* A imagem vai se repetir automaticamente para a direita e esquerda */
+            background-repeat: repeat-x; 
+            /* Define a imagem de fundo. Certifique-se do caminho correto */
+            background-image: url('./assets/Blocos.png'); 
+            /* Controla a velocidade (15s). Linear garante movimento contínuo */
+            animation: bg-scroll 15s linear infinite;
         }
     </style>
 </head>
@@ -149,23 +153,9 @@
     </section>
 
    <!-- Faixa Animada (Marquee) com Padrão Gráfico -->
-    <div class="border-b-4 border-black overflow-hidden flex">
-        <div class="animate-marquee flex">
-            <!-- Repetição de Blocos.png para efeito infinito. 
-                 max-w-none garante que as imagens mantenham a proporção sem amassar -->
-            <img src="./assets/Blocos.png" alt="Padronagem ENTEC" class="h-16 md:h-24 max-w-none">
-            <img src="./assets/Blocos.png" alt="Padronagem ENTEC" class="h-16 md:h-24 max-w-none">
-            <img src="./assets/Blocos.png" alt="Padronagem ENTEC" class="h-16 md:h-24 max-w-none">
-            <img src="./assets/Blocos.png" alt="Padronagem ENTEC" class="h-16 md:h-24 max-w-none">
-            <img src="./assets/Blocos.png" alt="Padronagem ENTEC" class="h-16 md:h-24 max-w-none">
-            <img src="./assets/Blocos.png" alt="Padronagem ENTEC" class="h-16 md:h-24 max-w-none">
-            <img src="./assets/Blocos.png" alt="Padronagem ENTEC" class="h-16 md:h-24 max-w-none">
-            <img src="./assets/Blocos.png" alt="Padronagem ENTEC" class="h-16 md:h-24 max-w-none">
-            <img src="./assets/Blocos.png" alt="Padronagem ENTEC" class="h-16 md:h-24 max-w-none">
-            <img src="./assets/Blocos.png" alt="Padronagem ENTEC" class="h-16 md:h-24 max-w-none">
-            <img src="./assets/Blocos.png" alt="Padronagem ENTEC" class="h-16 md:h-24 max-w-none">
-            <img src="./assets/Blocos.png" alt="Padronagem ENTEC" class="h-16 md:h-24 max-w-none">
-        </div>
+    <div class="border-b-4 border-black overflow-hidden">
+        <!-- A classe h-16/h-24 define a altura visível, bg-contain ajusta a imagem para caber na altura -->
+        <div class="animate-bg-scroll h-16 md:h-24 bg-contain"></div>
     </div>
 
     <!-- Seção EA FC 26 -->
