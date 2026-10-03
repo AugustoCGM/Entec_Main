@@ -56,7 +56,7 @@
             box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
         }
 
-        /* Animação de botões */
+        /* Animação de botões e logos */
         .hover-brutal {
             transition: transform 0.1s ease, box-shadow 0.1s ease;
         }
@@ -85,10 +85,19 @@
 
     <!-- Navegação Superior -->
     <nav class="fixed top-0 w-full z-50 bg-[#fdfbf7] border-b-4 border-black py-4 px-6 md:px-12 flex justify-between items-center">
-        <div class="flex items-center gap-2">
-            <i data-lucide="sparkles" class="text-[#ff00ff]" style="fill: #ff00ff;"></i>
-            <span class="text-3xl font-black uppercase tracking-tighter">ENTEC 2026</span>
+        <!-- Seção das Logos -->
+        <div class="flex items-center gap-4 md:gap-6">
+            <!-- Logo ENTEC -->
+            <img src="./assets/logo-entec.png" alt="Logo ENTEC 2026" class="h-5 md:h-7 object-contain cursor-pointer hover-brutal">
+            
+            <!-- Divisor Brutalista -->
+            <div class="w-1 h-5 bg-black transform rotate-12"></div>
+            
+            <!-- Logo JAM Labs -->
+            <img src="./assets/logo-jamlabs.png" alt="Logo JAM Labs" class="h-5 md:h-7 object-contain cursor-pointer hover-brutal">
         </div>
+
+        <!-- Links -->
         <div class="hidden md:flex gap-6 font-bold uppercase">
             <a href="#fc26" class="hover:text-[#0055ff] transition-colors hover:underline decoration-4 underline-offset-4">EA FC 26</a>
             <a href="#mk11" class="hover:text-[#ff00ff] transition-colors hover:underline decoration-4 underline-offset-4">Mortal Kombat 11</a>
@@ -287,7 +296,7 @@
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
             <div class="flex items-center gap-4">
                 <div class="bg-white p-2 border-4 border-black transform -rotate-3">
-                    <i data-lucide="code" class="w-10 h-10 text-black"></i>
+                    <img src="./assets/logo-jamlabs.png" alt="JAM Labs" class="w-10 h-10 object-contain">
                 </div>
                 <div>
                     <h2 class="text-4xl font-black uppercase tracking-tighter leading-none">ENTEC 2026</h2>
@@ -307,4 +316,4 @@
         lucide.createIcons();
     </script>
 </body>
-</html>
+</html> 
