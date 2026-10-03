@@ -359,21 +359,38 @@
     </div>
 
     <!-- Rodapé -->
-    <footer class="bg-black text-white py-12 px-6 md:px-12 border-t-8 border-[#00cc66]">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
-            <div class="flex items-center gap-4">
-                <a href="https://www.instagram.com/jamlabsdev?stkn=OTRqNHBzbjYya3My" target="_blank" rel="noopener noreferrer" class="bg-white p-2 border-4 border-black transform -rotate-3 hover-brutal inline-block">
-                    <img src="./assets/logo-jamlabs.png" alt="JAM Labs" class="w-10 h-10 object-contain">
-                </a>
-                <div>
-                    <h2 class="text-4xl font-black uppercase tracking-tighter leading-none">ENTEC 2026</h2>
-                    <p class="text-[#ff00ff] font-bold text-lg mt-1">UNINASSAU • Campina Grande</p>
-                </div>
+    <footer class="bg-black text-white pt-12 pb-8 px-6 md:px-12 border-t-8 border-[#00cc66]">
+        
+        <!-- Linha Superior: Logo ENTEC e Textos -->
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left mb-10">
+            
+            <!-- Lado Esquerdo: Nova Logo ENTEC (Substitui o bloco antigo) -->
+            <div class="flex-shrink-0">
+                <!-- Salve a sua nova logo como 'logo-entec-footer.png' -->
+                <img src="./assets/logo-entec-footer.png" alt="ENTEC 2026" class="h-16 md:h-20 w-auto object-contain mx-auto md:mx-0">
             </div>
             
+            <!-- Lado Direito: Texto Descritivo -->
             <div class="font-bold text-gray-400 max-w-sm">
                 <p>14ª Edição do Encontro de Tecnologia</p>
-                <p class="mt-2 text-sm">IA no fluxo de DEVOPS + O mundo dos agentes de IA: autonomia, decisão e o futuro do dev</p>
+                <p class="mt-2 text-sm leading-relaxed">IA no fluxo de DEVOPS + O mundo dos agentes de IA: autonomia, decisão e o futuro do dev</p>
+            </div>
+        </div>
+
+        <!-- Linha Inferior: Logos Parceiros Centralizadas -->
+        <div class="max-w-6xl mx-auto border-t-2 border-gray-800 pt-8 mt-4 flex flex-col items-center justify-center gap-4">
+            <p class="text-xs font-bold text-gray-500 uppercase tracking-widest">Realização & Apoio</p>
+            
+            <div class="flex items-center gap-8 opacity-80 hover:opacity-100 transition-opacity">
+                <!-- Nova Logo Uninassau (Pequena) -->
+                <a href="https://www.instagram.com/uninassau.cg?stkn=czRxdHRma3d5dTlx" target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform">
+                    <img src="./assets/logo-nassau-footer.png" alt="UNINASSAU" class="h-6 md:h-8 w-auto object-contain">
+                </a>
+                
+                <!-- Nova Logo JAM Labs (Pequena) -->
+                <a href="https://www.instagram.com/jamlabsdev?stkn=OTRqNHBzbjYya3My" target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform">
+                    <img src="./assets/logo-jam-footer.png" alt="JAM Labs" class="h-6 md:h-8 w-auto object-contain">
+                </a>
             </div>
         </div>
     </footer>
