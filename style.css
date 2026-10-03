@@ -1,0 +1,73 @@
+:root {
+    --entec-pink: #ff00ff;
+    --entec-blue: #0055ff;
+    --entec-green: #00cc66;
+    --entec-cream: #fdfbf7;
+}
+
+body {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: var(--entec-cream);
+    color: #000;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Padrões de Fundo estilo Quadrinhos/Retro-futurista */
+.bg-checkerboard {
+    background-image: 
+        linear-gradient(45deg, rgba(0, 0, 0, 0.05) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.05) 75%, rgba(0, 0, 0, 0.05)),
+        linear-gradient(45deg, rgba(0, 0, 0, 0.05) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.05) 75%, rgba(0, 0, 0, 0.05));
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+}
+
+.bg-checkerboard-pink {
+    background-image: 
+        linear-gradient(45deg, rgba(255, 0, 255, 0.15) 25%, transparent 25%, transparent 75%, rgba(255, 0, 255, 0.15) 75%, rgba(255, 0, 255, 0.15)),
+        linear-gradient(45deg, rgba(255, 0, 255, 0.15) 25%, transparent 25%, transparent 75%, rgba(255, 0, 255, 0.15) 75%, rgba(255, 0, 255, 0.15));
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
+}
+
+/* Sombras Brutalistas (Bordas duras sem desfoque) */
+.brutal-shadow {
+    box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
+}
+
+.brutal-shadow-sm {
+    box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+}
+
+/* Animação de botões e logos */
+.hover-brutal {
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.hover-brutal:hover {
+    transform: translate(4px, 4px);
+    box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+}
+.hover-brutal:active {
+    transform: translate(8px, 8px);
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
+}
+
+/* Faixa Animada com Background Infinito */
+@keyframes bg-scroll {
+    0% { background-position: 0 0; }
+    100% { background-position: -1000px 0; }
+}
+.animate-bg-scroll {
+    width: 100%;
+    background-repeat: repeat-x; 
+    background-image: url('./assets/Blocos.png'); 
+    animation: bg-scroll 15s linear infinite;
+}
+
+/* Contorno Branco Brutalista para o Botão Principal */
+.brutal-white-outline {
+    filter: drop-shadow(3px 0px 0px white) 
+            drop-shadow(0px 3px 0px white)
+            drop-shadow(-3px 0px 0px white)
+            drop-shadow(0px -3px 0px white);
+}
