@@ -158,70 +158,114 @@
         <div class="animate-bg-scroll h-16 md:h-24 bg-contain"></div>
     </div>
 
-    <!-- Seção EA FC 26 -->
+<!-- Seção EA FC 26 -->
     <section id="fc26" class="py-20 md:py-32 px-6 md:px-12 bg-[#fdfbf7] border-b-4 border-black">
-        <div class="max-w-6xl mx-auto">
+        <!-- O Grid engloba tudo, fazendo as duas colunas terem a mesma altura -->
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
             
-            <!-- Título da Seção -->
-            <div class="relative inline-block mb-12">
-                <div class="absolute top-2 left-2 w-full h-full bg-[#0055ff] border-4 border-black"></div>
-                <div class="relative bg-[#fdfbf7] border-4 border-black px-6 py-4 flex items-center gap-4">
-                    <i data-lucide="trophy" class="w-10 h-10"></i>
-                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-black">EA Sports FC 26</h2>
+            <!-- Coluna da Esquerda (Título + Card de Informações) -->
+            <div class="flex flex-col">
+                
+                <!-- Título da Seção (Apenas a Logo do Jogo) -->
+                <div class="relative inline-block mb-12 self-start">
+                    <div class="absolute top-2 left-2 w-full h-full bg-[#0055ff] border-4 border-black"></div>
+                    <div class="relative bg-[#fdfbf7] border-4 border-black px-8 py-4 flex items-center justify-center">
+                        <img src="./assets/logo-fc26.png" alt="EA Sports FC 26 Logo" class="h-12 md:h-16 object-contain">
+                    </div>
+                </div>
+                
+                <!-- Informações e Regras Resumidas -->
+                <div class="bg-white border-4 border-black p-6 md:p-8 brutal-shadow relative">
+                    <div class="absolute -top-4 -right-4 bg-[#ff00ff] text-white font-black px-4 py-1 border-4 border-black transform rotate-6">
+                        TORNEIO 2V2
+                    </div>
+                    
+                    <h3 class="text-3xl font-black mb-4 uppercase">A Glória é em Dupla!</h3>
+                    <p class="text-lg font-bold mb-6">
+                        A comunicação e a tática em conjunto ditarão o ritmo da partida. Convoque sua dupla, alinhe sua estratégia e prepare-se para buscar a taça no gramado virtual.
+                    </p>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3 font-bold text-lg">
+                            <i data-lucide="users" class="text-[#0055ff]"></i> Formato: Co-op (2v2)
+                        </li>
+                        <li class="flex items-center gap-3 font-bold text-lg">
+                            <i data-lucide="swords" class="text-[#ff00ff]"></i> Sistema: Eliminatória Simples
+                        </li>
+                        <li class="flex items-center gap-3 font-bold text-lg">
+                            <i data-lucide="trophy" class="text-[#00cc66]"></i> Premiação: Taça e Kits Exclusivos
+                        </li>
+                    </ul>
+                    
+                    <a href="https://augustocgm.github.io/Entec_Campeonato_FC26/" target="_blank" rel="noopener noreferrer" class="w-full bg-[#00cc66] text-black relative inline-flex items-center justify-center gap-2 px-4 py-4 font-black uppercase text-lg md:text-xl border-4 border-black brutal-shadow hover-brutal text-center leading-tight">
+                        INSCREVA SUA DUPLA E MOSTRE O SEU FUTEBOL!
+                    </a>
                 </div>
             </div>
-            
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <!-- Informações -->
-                <div>
-                    <div class="bg-white border-4 border-black p-8 brutal-shadow mb-8 relative">
-                        <div class="absolute -top-4 -right-4 bg-[#ff00ff] text-white font-black px-4 py-1 border-4 border-black transform rotate-6">
-                            ELIMINAÇÃO DIRETA
-                        </div>
-                        <h3 class="text-3xl font-black mb-4 uppercase">Mostre sua Tática no Gramado Virtual</h3>
-                        <p class="text-lg font-bold mb-6">
-                            A inteligência de jogo define o campeão. O torneio testará suas habilidades de formação, decisão rápida e controle sob pressão.
-                        </p>
-                        
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center gap-3 font-bold text-lg">
-                                <i data-lucide="calendar" class="text-[#00cc66]"></i> Início: A definir (Durante a ENTEC)
-                            </li>
-                            <li class="flex items-center gap-3 font-bold text-lg">
-                                <i data-lucide="gamepad-2" class="text-[#0055ff]"></i> Formato: Chaveamento 1x1
-                            </li>
-                        </ul>
-                        
-                        <button class="w-full sm:w-auto bg-[#00cc66] text-black relative inline-flex items-center justify-center gap-2 px-8 py-4 font-black uppercase text-xl border-4 border-black brutal-shadow hover-brutal" onclick="alert('Redirecionando para inscrição de FC 26...')">
-                            Inscrever-se <i data-lucide="arrow-right"></i>
-                        </button>
-                    </div>
+
+            <!-- Coluna da Direita (Arco e Jogadores independentes do tamanho da caixa) -->
+            <div class="relative w-full h-full hidden md:block">
+                
+                <!-- O Arco em PNG (Preenche exatamente a altura guiada pela esquerda) -->
+                <img src="./assets/arco-id.png" alt="Arco ENTEC" class="absolute inset-0 w-full h-full object-contain object-bottom z-0">
+                
+                <!-- Wrapper Absolute: Container fantasma que centraliza o jogador e prende ele na base -->
+                <div class="absolute inset-0 flex items-end justify-center z-10 pb-4">
+                    <!-- O jogador ocupa 85% do wrapper invisível, nunca distorcendo a página -->
+                    <img id="fc-player-render" src="assets/render-vini.png" alt="Jogador FC26" class="h-[85%] w-auto object-contain object-bottom drop-shadow-[8px_8px_0_rgba(0,0,0,0.5)]">
                 </div>
 
-                <!-- Cards Decorativos -->
-                <div class="relative h-[400px] flex items-center justify-center hidden sm:flex">
-                    <div class="absolute transform rotate-6 z-10 w-64 bg-white border-4 border-black brutal-shadow group transition-transform duration-300">
-                        <div class="h-40 bg-[#0055ff] border-b-4 border-black flex items-center justify-center relative overflow-hidden">
-                            <div class="absolute top-2 left-2 flex flex-col items-center">
-                                <span class="text-4xl font-black text-black">99</span>
-                                <span class="text-lg font-bold text-black">PRO</span>
-                            </div>
-                            <i data-lucide="user" class="w-20 h-20 text-black opacity-50 mt-12"></i>
-                        </div>
-                        <div class="p-4 bg-[#fdfbf7]">
-                            <h3 class="text-2xl font-black text-center border-b-4 border-black pb-2 mb-2 uppercase">Jogador 1</h3>
-                            <div class="grid grid-cols-2 gap-2 text-sm font-bold text-center">
-                                <div>PAC 88</div>
-                                <div>DRI 90</div>
-                                <div>SHO 85</div>
-                                <div>DEF 40</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
+            
         </div>
     </section>
+
+    <!-- Script de Rotação (Ajustado para animação deslizante) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            const fcPlayerRender = document.getElementById('fc-player-render');
+            if(fcPlayerRender) {
+                const renderPool = [
+                    'assets/render-vini.png',
+                    'assets/render-marta.png',
+                    'assets/render-bell.png',
+                    'assets/render-haaland.png',
+                    'assets/render-cr7.png'
+                ];
+                let currentRenderIndex = 0;
+
+                // Define o tempo e estilo da transição
+                fcPlayerRender.style.transition = 'all 0.6s ease-in-out';
+
+                setInterval(() => {
+                    // 1. Saída: Desliza para a esquerda e esvaece
+                    fcPlayerRender.style.opacity = '0';
+                    fcPlayerRender.style.transform = 'translateX(-60px) scale(0.95)';
+                    
+                    setTimeout(() => {
+                        // 2. Troca a imagem
+                        currentRenderIndex = (currentRenderIndex + 1) % renderPool.length;
+                        fcPlayerRender.src = renderPool[currentRenderIndex];
+                        
+                        // 3. Posiciona instantaneamente à direita (invisível) sem animar
+                        fcPlayerRender.style.transition = 'none';
+                        fcPlayerRender.style.transform = 'translateX(60px) scale(0.95)';
+                        
+                        // Força o navegador a renderizar a nova posição antes de continuar
+                        void fcPlayerRender.offsetWidth;
+                        
+                        // 4. Entrada: Desliza para o centro e aparece
+                        fcPlayerRender.style.transition = 'all 0.6s ease-out';
+                        fcPlayerRender.style.opacity = '1';
+                        fcPlayerRender.style.transform = 'translateX(0px) scale(1)';
+                        
+                    }, 600); // Aguarda a animação de saída terminar
+                }, 4000); // Troca de jogador a cada 4 segundos
+            }
+        });
+    </script>
 
     <!-- Seção Mortal Kombat 11 -->
     <section id="mk11" class="py-20 md:py-32 px-6 md:px-12 bg-checkerboard-pink border-b-4 border-black">
