@@ -40,7 +40,8 @@
     </nav>
 
 <!-- Seção Hero (Carrossel Dinâmico) -->
-    <section class="relative pt-32 pb-20 md:pt-48 md:pb-24 px-4 md:px-12 min-h-[90vh] flex flex-col justify-center bg-checkerboard border-b-4 border-black overflow-hidden">
+    <!-- Adicionado o id="hero-section" para o rastro tátil -->
+    <section id="hero-section" class="relative pt-24 pb-20 md:pt-48 md:pb-24 px-4 md:px-12 min-h-[90vh] flex flex-col justify-center bg-checkerboard border-b-4 border-black overflow-hidden">
         
         <!-- Wrapper do Carrossel -->
         <div class="w-full max-w-6xl mx-auto relative z-10 flex-grow flex flex-col justify-center">
@@ -50,78 +51,74 @@
                 <img src="./assets/logo-hero.png" alt="ENTEC E-Sports">
             </div>
 
-            <!-- Setas de Controlo (Agora dentro de divs fixas para o botão não fugir do rato) -->
-            <div class="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 z-30">
+            <!-- Setas de Controlo (Escondidas no mobile com 'hidden md:block') -->
+            <div class="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 z-30 hidden md:block">
                 <button id="prev-hero" class="bg-white border-4 border-black brutal-shadow-sm hover-brutal w-10 h-10 md:w-14 md:h-14 flex items-center justify-center cursor-pointer">
                     <i data-lucide="arrow-left" class="w-6 h-6 md:w-8 md:h-8"></i>
                 </button>
             </div>
-            <div class="absolute right-0 md:right-4 top-1/2 -translate-y-1/2 z-30">
+            <div class="absolute right-0 md:right-4 top-1/2 -translate-y-1/2 z-30 hidden md:block">
                 <button id="next-hero" class="bg-white border-4 border-black brutal-shadow-sm hover-brutal w-10 h-10 md:w-14 md:h-14 flex items-center justify-center cursor-pointer">
                     <i data-lucide="arrow-right" class="w-6 h-6 md:w-8 md:h-8"></i>
                 </button>
             </div>
 
             <!-- Máscara do Carrossel -->
-            <div class="overflow-hidden w-full px-12 md:px-24 mb-8">
-                <!-- Pista do Carrossel -->
+            <!-- Reduzido o padding lateral no mobile para dar mais ecrã útil -->
+            <div class="overflow-hidden w-full px-4 md:px-24 mb-8">
                 <div id="hero-track" class="flex transition-transform duration-700 ease-in-out items-center">
                     
-                   <!-- Slide 1: Original (Mantém o espaço fantasma para a logo flutuante) -->
-                    <!-- Adicionado gap-8 md:gap-12 para manter a distância exata entre todos os elementos -->
-                    <div class="w-full flex-shrink-0 flex flex-col items-center justify-center text-center py-4 gap-8 md:gap-12">
-                        
-                        <!-- Cartão UNINASSAU (Margem mb-8 removida) -->
+                    <!-- Slide 1: Original -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center justify-center text-center py-4 gap-8 md:gap-12 px-2 md:px-0">
                         <a href="https://www.instagram.com/uninassau.cg?stkn=czRxdHRma3d5dTlx" target="_blank" rel="noopener noreferrer" class="inline-block bg-white border-4 border-black px-4 py-2 brutal-shadow-sm transform -rotate-2 hover-brutal cursor-pointer">
                             <img src="./assets/logo-uninassau.png" alt="UNINASSAU" class="h-6 md:h-8 object-contain">
                         </a>
                         
-                        <!-- Espaço fantasma: Mantém a altura exata da logo flutuante (Margem mb-10 removida) -->
+                        <!-- Espaço fantasma ajustado: h-24 para mobile, h-48 para desktop -->
                         <div class="w-full flex justify-center pointer-events-none">
-                            <div class="h-32 md:h-48 w-64"></div> 
+                            <div class="h-24 md:h-48 w-64"></div> 
                         </div>
 
-                        <!-- Cartão Subtítulo -->
                         <div class="bg-[#fdfbf7] border-4 border-black p-3 md:px-6 inline-block brutal-shadow-sm transform skew-x-2">
                             <p class="text-lg md:text-xl font-bold uppercase">
                                 Desperte seu superpoder e <br class="hidden md:block"/> 
                                 domine o código da vitória!
                             </p>
                         </div>
-                        
                     </div>
 
                     <!-- Slide 2: Imagem de Divulgação 1 -->
-                    <div class="w-full flex-shrink-0 flex flex-col items-center justify-center py-10 px-2">
+                    <!-- Adicionado px-8 md:px-12 para distanciar visualmente os slides -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center justify-center py-10 px-8 md:px-12">
                         <div class="relative w-full max-w-3xl bg-white border-4 border-black brutal-shadow p-2 md:p-4">
-                            <!-- Os cartõezinhos foram apagados daqui! A logo flutuante assume este espaço. -->
-                            <img src="./assets/post-1.png" alt="Divulgação 1" class="w-full aspect-video object-cover border-2 border-black bg-gray-200">
+                            <img src="./assets/post-1.png" alt="Divulgação 1" class="w-full aspect-video object-cover border-2 border-black bg-gray-200 pointer-events-none">
                         </div>
                     </div>
 
                     <!-- Slide 3: Imagem de Divulgação 2 -->
-                    <div class="w-full flex-shrink-0 flex flex-col items-center justify-center py-10 px-2">
+                    <!-- Adicionado px-8 md:px-12 -->
+                    <div class="w-full flex-shrink-0 flex flex-col items-center justify-center py-10 px-8 md:px-12">
                         <div class="relative w-full max-w-3xl bg-white border-4 border-black brutal-shadow p-2 md:p-4">
-                            <img src="./assets/post-2.png" alt="Divulgação 2" class="w-full aspect-video object-cover border-2 border-black bg-gray-200">
+                            <img src="./assets/post-2.png" alt="Divulgação 2" class="w-full aspect-video object-cover border-2 border-black bg-gray-200 pointer-events-none">
                         </div>
                     </div>
 
                 </div>
             </div>
 
-            <!-- Indicadores (Pontos/Dots) -->
+            <!-- Indicadores -->
             <div id="hero-dots" class="flex justify-center items-center gap-4 mb-8">
-                <!-- O JS vai gerar as caixinhas e a estrela aqui -->
+                <!-- O JS gera aqui -->
             </div>
             
         </div>
 
         <!-- Botões Constantes Fixos -->
-        <div class="flex flex-col sm:flex-row gap-6 justify-center w-full relative z-20 mt-auto">
-            <a href="#fc26" class="bg-[#0055ff] text-white relative inline-flex items-center justify-center px-10 py-4 font-black uppercase text-xl border-4 border-black brutal-shadow hover-brutal cursor-pointer">
+        <div class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center w-full relative z-20 mt-auto">
+            <a href="#fc26" class="bg-[#0055ff] text-white relative inline-flex items-center justify-center px-10 py-4 font-black uppercase text-lg md:text-xl border-4 border-black brutal-shadow hover-brutal cursor-pointer">
                 Torneio EA FC 26
             </a>
-            <a href="#mk11" class="bg-[#ff00ff] text-white relative inline-flex items-center justify-center px-10 py-4 font-black uppercase text-xl border-4 border-black brutal-shadow hover-brutal cursor-pointer">
+            <a href="#mk11" class="bg-[#ff00ff] text-white relative inline-flex items-center justify-center px-10 py-4 font-black uppercase text-lg md:text-xl border-4 border-black brutal-shadow hover-brutal cursor-pointer">
                 Torneio MK 11
             </a>
         </div>

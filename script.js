@@ -2,21 +2,22 @@ document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
 
     // ==========================================
-    // CARROSSEL HERO (ATUALIZADO)
+    // CARROSSEL HERO E EFEITOS TOUCH (ATUALIZADO)
     // ==========================================
+    const heroSection = document.getElementById('hero-section');
     const heroTrack = document.getElementById('hero-track');
     const prevHero = document.getElementById('prev-hero');
     const nextHero = document.getElementById('next-hero');
     const heroDots = document.getElementById('hero-dots');
     const floatingLogo = document.getElementById('floating-hero-logo');
 
-    if (heroTrack && prevHero && nextHero && heroDots && floatingLogo) {
+    if (heroTrack && heroDots) {
         const slides = heroTrack.children;
         const totalSlides = slides.length;
         let currentHeroSlide = 0;
         let heroAutoPlay;
 
-        // Criar os indicadores (todos como retângulos)
+        // Criar indicadores
         for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('button');
             dot.classList.add('w-6', 'h-3', 'border-2', 'border-black', 'bg-white', 'transition-colors', 'cursor-pointer');
@@ -25,69 +26,86 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const updateHeroUI = () => {
-            // Atualizar as cores dos retângulos
             Array.from(heroDots.children).forEach((dot, index) => {
-                // Limpa as cores antes de aplicar a nova
                 dot.classList.remove('bg-[#0055ff]', 'bg-[#ff00ff]', 'bg-white');
-
                 if (index === currentHeroSlide) {
-                    if (index === 0) {
-                        dot.classList.add('bg-[#0055ff]'); // Azul na página principal
-                    } else {
-                        dot.classList.add('bg-[#ff00ff]'); // Rosa nos posts
-                    }
+                    dot.classList.add(index === 0 ? 'bg-[#0055ff]' : 'bg-[#ff00ff]');
                 } else {
-                    dot.classList.add('bg-white'); // Branco quando inativo
+                    dot.classList.add('bg-white');
                 }
             });
 
-            // Atualizar a Logo Flutuante
-            if (currentHeroSlide === 0) {
-                floatingLogo.classList.add('logo-state-center');
-                floatingLogo.classList.remove('logo-state-corner');
-            } else {
-                floatingLogo.classList.add('logo-state-corner');
-                floatingLogo.classList.remove('logo-state-center');
+            if (floatingLogo) {
+                if (currentHeroSlide === 0) {
+                    floatingLogo.classList.add('logo-state-center');
+                    floatingLogo.classList.remove('logo-state-corner');
+                } else {
+                    floatingLogo.classList.add('logo-state-corner');
+                    floatingLogo.classList.remove('logo-state-center');
+                }
             }
         };
 
         const goToHeroSlide = (index) => {
             if (index < 0) index = totalSlides - 1; 
             if (index >= totalSlides) index = 0;    
-            
             currentHeroSlide = index;
             heroTrack.style.transform = `translateX(-${currentHeroSlide * 100}%)`;
             updateHeroUI(); 
         };
 
-        prevHero.addEventListener('click', () => {
-            goToHeroSlide(currentHeroSlide - 1);
-            resetHeroAutoPlay();
-        });
-        
-        nextHero.addEventListener('click', () => {
-            goToHeroSlide(currentHeroSlide + 1);
-            resetHeroAutoPlay();
-        });
+        if (prevHero) prevHero.addEventListener('click', () => { goToHeroSlide(currentHeroSlide - 1); resetHeroAutoPlay(); });
+        if (nextHero) nextHero.addEventListener('click', () => { goToHeroSlide(currentHeroSlide + 1); resetHeroAutoPlay(); });
 
-        // Configuração Inicial
         updateHeroUI();
 
-        const startHeroAutoPlay = () => {
-            heroAutoPlay = setInterval(() => {
-                goToHeroSlide(currentHeroSlide + 1);
-            }, 6000);
-        };
-
-        const resetHeroAutoPlay = () => {
-            clearInterval(heroAutoPlay);
-            startHeroAutoPlay();
-        };
+        const startHeroAutoPlay = () => { heroAutoPlay = setInterval(() => goToHeroSlide(currentHeroSlide + 1), 6000); };
+        const resetHeroAutoPlay = () => { clearInterval(heroAutoPlay); startHeroAutoPlay(); };
 
         heroTrack.parentElement.addEventListener('mouseenter', () => clearInterval(heroAutoPlay));
         heroTrack.parentElement.addEventListener('mouseleave', startHeroAutoPlay);
 
-        startHeroAutoPlay();
+        // -- LÓGICA MOBILE: SWIPE (DESLIZAR) --
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        heroTrack.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+            clearInterval(heroAutoPlay);
+        }, {passive: true});
+
+        heroTrack.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            startHeroAutoPlay();
+        }, {passive: true});
+
+        function handleSwipe() {
+            // Se o utilizador arrastar mais de 50px
+            if (touchEndX < touchStartX - 50) goToHeroSlide(currentHeroSlide + 1); // Desliza pra esquerda -> Próximo
+            if (touchEndX > touchStartX + 50) goToHeroSlide(currentHeroSlide - 1); // Desliza pra direita -> Anterior
+        }
+
+        // -- LÓGICA MOBILE: RASTRO DE LUZ (PARTÍCULAS) --
+        heroSection.addEventListener('touchmove', (e) => {
+            // Apenas executa se for ecrã tátil
+            if(window.matchMedia("(pointer: coarse)").matches) {
+                const touch = e.touches[0];
+                const particle = document.createElement('div');
+                
+                // A classe CSS agora cuida de todo o visual luminoso
+                particle.classList.add('touch-trail-particle'); 
+                
+                const rect = heroSection.getBoundingClientRect();
+                particle.style.left = (touch.clientX - rect.left) + 'px';
+                particle.style.top = (touch.clientY - rect.top) + 'px';
+                
+                heroSection.appendChild(particle);
+                
+                // Remove a partícula mais rápido (400ms) para ficar como um rastro ágil
+                setTimeout(() => { particle.remove(); }, 400);
+            }
+        }, {passive: true});
     }
 
     // ==========================================
