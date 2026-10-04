@@ -76,33 +76,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     const fabBtn = document.getElementById('fab-btn');
     const fabMenu = document.getElementById('fab-menu');
-    const fabStar = document.getElementById('fab-star');
-    const fabController = document.getElementById('fab-controller');
-    let isFabOpen = false;
 
-    if (fabBtn) {
+    if (fabBtn && fabMenu) {
         fabBtn.addEventListener('click', () => {
-            isFabOpen = !isFabOpen;
+            // Alterna a classe que ativa as rotações CSS (Tailwind) no HTML
+            fabBtn.classList.toggle('is-open');
             
-            if (isFabOpen) {
+            if (fabBtn.classList.contains('is-open')) {
+                // Mostrar o Menu de Botões (Desliza para cima)
                 fabMenu.classList.remove('opacity-0', 'translate-y-8', 'pointer-events-none');
                 fabMenu.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
-                
-                fabStar.style.transform = 'rotate(180deg) scale(0.3)';
-                fabStar.style.opacity = '0';
-                
-                fabController.style.transform = 'rotate(0deg) scale(1)';
-                fabController.style.opacity = '1';
             } else {
+                // Esconder o Menu (Desliza para baixo)
                 fabMenu.classList.add('opacity-0', 'translate-y-8', 'pointer-events-none');
                 fabMenu.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-                
-                fabController.style.transform = 'rotate(-180deg) scale(0.3)';
-                fabController.style.opacity = '0';
-                
-                fabStar.style.transform = 'rotate(0deg) scale(1)';
-                fabStar.style.opacity = '1';
             }
+        });
+    }
+
+    // ==========================================
+    // CURSOR CUSTOMIZADO (PIXEL ART)
+    // ==========================================
+    const customCursor = document.getElementById('custom-cursor');
+    
+    if (customCursor) {
+        // Faz a div seguir a posição exata do rato no ecrã
+        document.addEventListener('mousemove', (e) => {
+            customCursor.style.left = e.clientX + 'px';
+            customCursor.style.top = e.clientY + 'px';
+        });
+
+        // Muda a imagem do cursor ao passar em elementos clicáveis
+        const clickables = document.querySelectorAll('a, button, .cursor-pointer');
+        clickables.forEach(el => {
+            el.addEventListener('mouseenter', () => customCursor.classList.add('pointer'));
+            el.addEventListener('mouseleave', () => customCursor.classList.remove('pointer'));
         });
     }
 });

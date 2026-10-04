@@ -13,6 +13,47 @@ body {
     scroll-behavior: smooth;
 }
 
+/* ==========================================
+   CURSOR CUSTOMIZADO (PIXEL ART)
+========================================== */
+/* Esconde o cursor padrão do sistema na página toda */
+body, a, button {
+    cursor: none !important;
+}
+
+/* Estilo do seu novo cursor feito em código */
+#custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 16px;  /* Tamanho original da sua imagem */
+    height: 16px; /* Tamanho original da sua imagem */
+    background-image: url('./assets/cursor-normal.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+    /* Isso impede que o cursor "bloqueie" os seus cliques nos botões reais */
+    pointer-events: none; 
+    z-index: 999999; /* Fica acima de TUDO no ecrã */
+    
+    /* Aumenta a imagem (2 = 32x32px, 3 = 48x48px) */
+    transform: scale(2); 
+    transform-origin: top left; /* Mantém a ponta do clique no lugar certo */
+    
+    /* O FILTRO MÁGICO: Garante que os pixels fiquem duros e não borrados */
+    image-rendering: pixelated; 
+    image-rendering: crisp-edges;
+}
+
+/* Classe para quando o rato passar por cima de botões e links */
+#custom-cursor.pointer {
+    background-image: url('./assets/cursor-pointer.png'); /* Imagem da mãozinha/mira ativa */
+}
+
+
+/* ==========================================
+   PADRÕES E ESTILOS GERAIS
+========================================== */
 /* Padrões de Fundo estilo Quadrinhos/Retro-futurista */
 .bg-checkerboard {
     background-image: 
