@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
 
-    // ==========================================
-    // CARROSSEL HERO E EFEITOS TOUCH (ATUALIZADO)
-    // ==========================================
+    // ===============================
+    // CARROSSEL HERO E EFEITOS TOUCH 
+    // ===============================
     const heroSection = document.getElementById('hero-section');
     const heroTrack = document.getElementById('hero-track');
     const prevHero = document.getElementById('prev-hero');
@@ -15,13 +15,31 @@ document.addEventListener('DOMContentLoaded', () => {
         const slides = heroTrack.children;
         const totalSlides = slides.length;
         let currentHeroSlide = 0;
-        let heroAutoPlay;
+        
+        // VARIÁVEIS DO CRONÓMETRO BLINDADAS
+        let heroAutoPlay = null; 
+        const AUTO_PLAY_DELAY = 10000; // 10 Segundos exactos
+
+        // Funções para garantir que só 1 cronómetro existe por vez
+        function startAutoPlay() {
+            if (heroAutoPlay) clearInterval(heroAutoPlay);
+            heroAutoPlay = setInterval(() => {
+                goToHeroSlide(currentHeroSlide + 1, false);
+            }, AUTO_PLAY_DELAY);
+        }
+
+        function stopAutoPlay() {
+            if (heroAutoPlay) clearInterval(heroAutoPlay);
+            heroAutoPlay = null;
+        }
 
         // Criar indicadores
         for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('button');
             dot.classList.add('w-6', 'h-3', 'border-2', 'border-black', 'bg-white', 'transition-colors', 'cursor-pointer');
-            dot.addEventListener('click', () => goToHeroSlide(i));
+            
+            // O 'true' diz ao sistema que a ação foi humana
+            dot.addEventListener('click', () => goToHeroSlide(i, true));
             heroDots.appendChild(dot);
         }
 
@@ -46,46 +64,62 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        const goToHeroSlide = (index) => {
+        const goToHeroSlide = (index, manual = false) => {
             if (index < 0) index = totalSlides - 1; 
             if (index >= totalSlides) index = 0;    
+            
             currentHeroSlide = index;
             heroTrack.style.transform = `translateX(-${currentHeroSlide * 100}%)`;
             updateHeroUI(); 
+            
+            // RESET DEFINITIVO: Se foi o humano, mata e recomeça os 10s
+            if (manual) {
+                startAutoPlay();
+            }
         };
 
-        if (prevHero) prevHero.addEventListener('click', () => { goToHeroSlide(currentHeroSlide - 1); resetHeroAutoPlay(); });
-        if (nextHero) nextHero.addEventListener('click', () => { goToHeroSlide(currentHeroSlide + 1); resetHeroAutoPlay(); });
+        // Ações dos botões de setas forçam o reset manual (true)
+        if (prevHero) prevHero.addEventListener('click', () => {
+            stopAutoPlay();
+            goToHeroSlide(currentHeroSlide - 1, true);
+        });
+        
+        if (nextHero) nextHero.addEventListener('click', () => {
+            stopAutoPlay();
+            goToHeroSlide(currentHeroSlide + 1, true);
+        });
 
+        // Inicialização
         updateHeroUI();
+        startAutoPlay();
 
-        const startHeroAutoPlay = () => { heroAutoPlay = setInterval(() => goToHeroSlide(currentHeroSlide + 1), 6000); };
-        const resetHeroAutoPlay = () => { clearInterval(heroAutoPlay); startHeroAutoPlay(); };
+        // Pausar ao colocar o rato por cima (apenas Desktop)
+        heroTrack.parentElement.addEventListener('mouseenter', stopAutoPlay);
+        heroTrack.parentElement.addEventListener('mouseleave', startAutoPlay);
 
-        heroTrack.parentElement.addEventListener('mouseenter', () => clearInterval(heroAutoPlay));
-        heroTrack.parentElement.addEventListener('mouseleave', startHeroAutoPlay);
-
-        // -- LÓGICA MOBILE: SWIPE (DESLIZAR) --
+        // -- LÓGICA MOBILE: SWIPE --
         let touchStartX = 0;
         let touchEndX = 0;
 
         heroTrack.addEventListener('touchstart', e => {
             touchStartX = e.changedTouches[0].screenX;
-            clearInterval(heroAutoPlay);
+            stopAutoPlay(); // Trava tudo instantaneamente ao encostar o dedo
         }, {passive: true});
 
         heroTrack.addEventListener('touchend', e => {
             touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-            startHeroAutoPlay();
+            
+            if (touchEndX < touchStartX - 50) {
+                goToHeroSlide(currentHeroSlide + 1, true); 
+            } else if (touchEndX > touchStartX + 50) {
+                goToHeroSlide(currentHeroSlide - 1, true); 
+            } else {
+                // Se foi apenas um toque/clique inútil, a música continua
+                startAutoPlay();
+            }
         }, {passive: true});
 
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 50) goToHeroSlide(currentHeroSlide + 1); 
-            if (touchEndX > touchStartX + 50) goToHeroSlide(currentHeroSlide - 1); 
-        }
-
-        // -- LÓGICA MOBILE: RASTRO DE LUZ (FITA CONTÍNUA) --
+        // -- LÓGICA MOBILE: RASTRO DE LUZ --
         let lastTouchX = null;
         let lastTouchY = null;
 
@@ -141,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 lastTouchY = null;
             }, {passive: true});
         }
-    } // <--- ESTA FOI A CHAVE QUE FALTOU NO CÓDIGO ANTERIOR!
+    }
 
     // ==========================================
     // ANIMAÇÃO EA FC 26
