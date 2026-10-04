@@ -2,6 +2,84 @@ document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
 
     // ==========================================
+    // CARROSSEL HERO (NOVO)
+    // ==========================================
+    const heroTrack = document.getElementById('hero-track');
+    const prevHero = document.getElementById('prev-hero');
+    const nextHero = document.getElementById('next-hero');
+    const heroDots = document.getElementById('hero-dots');
+
+    if (heroTrack && prevHero && nextHero && heroDots) {
+        const slides = heroTrack.children;
+        const totalSlides = slides.length;
+        let currentHeroSlide = 0;
+        let heroAutoPlay;
+
+        // Criar os indicadores (quadradinhos) brutalistas
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('button');
+            // Usamos caixinhas quadradas em vez de bolinhas para manter o tema!
+            dot.classList.add('w-6', 'h-3', 'border-2', 'border-black', 'cursor-pointer', 'transition-colors', 'hover:bg-[#ff00ff]');
+            dot.addEventListener('click', () => goToHeroSlide(i));
+            heroDots.appendChild(dot);
+        }
+
+        const updateHeroDots = () => {
+            Array.from(heroDots.children).forEach((dot, index) => {
+                if (index === currentHeroSlide) {
+                    dot.classList.add('bg-[#ff00ff]');
+                    dot.classList.remove('bg-white');
+                } else {
+                    dot.classList.add('bg-white');
+                    dot.classList.remove('bg-[#ff00ff]');
+                }
+            });
+        };
+
+        const goToHeroSlide = (index) => {
+            if (index < 0) index = totalSlides - 1; // Volta para o último
+            if (index >= totalSlides) index = 0;    // Volta para o primeiro
+            
+            currentHeroSlide = index;
+            // Move a pista em incrementos de 100%
+            heroTrack.style.transform = `translateX(-${currentHeroSlide * 100}%)`;
+            updateHeroDots();
+        };
+
+        // Eventos de clique nas setas
+        prevHero.addEventListener('click', () => {
+            goToHeroSlide(currentHeroSlide - 1);
+            resetHeroAutoPlay();
+        });
+        
+        nextHero.addEventListener('click', () => {
+            goToHeroSlide(currentHeroSlide + 1);
+            resetHeroAutoPlay();
+        });
+
+        // Inicia os dots no slide 0
+        updateHeroDots();
+
+        // Autoplay do carrossel a cada 6 segundos
+        const startHeroAutoPlay = () => {
+            heroAutoPlay = setInterval(() => {
+                goToHeroSlide(currentHeroSlide + 1);
+            }, 6000);
+        };
+
+        const resetHeroAutoPlay = () => {
+            clearInterval(heroAutoPlay);
+            startHeroAutoPlay();
+        };
+
+        // Pausar autoplay quando o rato passa por cima (desktop)
+        heroTrack.parentElement.addEventListener('mouseenter', () => clearInterval(heroAutoPlay));
+        heroTrack.parentElement.addEventListener('mouseleave', startHeroAutoPlay);
+
+        startHeroAutoPlay();
+    }
+
+    // ==========================================
     // ANIMAÇÃO EA FC 26
     // ==========================================
     const fcPlayerRender = document.getElementById('fc-player-render');
