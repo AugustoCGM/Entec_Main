@@ -81,32 +81,67 @@ document.addEventListener('DOMContentLoaded', () => {
         }, {passive: true});
 
         function handleSwipe() {
-            // Se o utilizador arrastar mais de 50px
-            if (touchEndX < touchStartX - 50) goToHeroSlide(currentHeroSlide + 1); // Desliza pra esquerda -> Próximo
-            if (touchEndX > touchStartX + 50) goToHeroSlide(currentHeroSlide - 1); // Desliza pra direita -> Anterior
+            if (touchEndX < touchStartX - 50) goToHeroSlide(currentHeroSlide + 1); 
+            if (touchEndX > touchStartX + 50) goToHeroSlide(currentHeroSlide - 1); 
         }
 
-        // -- LÓGICA MOBILE: RASTRO DE LUZ (PARTÍCULAS) --
-        heroSection.addEventListener('touchmove', (e) => {
-            // Apenas executa se for ecrã tátil
-            if(window.matchMedia("(pointer: coarse)").matches) {
-                const touch = e.touches[0];
-                const particle = document.createElement('div');
-                
-                // A classe CSS agora cuida de todo o visual luminoso
-                particle.classList.add('touch-trail-particle'); 
-                
-                const rect = heroSection.getBoundingClientRect();
-                particle.style.left = (touch.clientX - rect.left) + 'px';
-                particle.style.top = (touch.clientY - rect.top) + 'px';
-                
-                heroSection.appendChild(particle);
-                
-                // Remove a partícula mais rápido (400ms) para ficar como um rastro ágil
-                setTimeout(() => { particle.remove(); }, 400);
-            }
-        }, {passive: true});
-    }
+        // -- LÓGICA MOBILE: RASTRO DE LUZ (FITA CONTÍNUA) --
+        let lastTouchX = null;
+        let lastTouchY = null;
+
+        if (heroSection) {
+            heroSection.addEventListener('touchstart', (e) => {
+                if(window.matchMedia("(pointer: coarse)").matches) {
+                    const rect = heroSection.getBoundingClientRect();
+                    lastTouchX = e.touches[0].clientX - rect.left;
+                    lastTouchY = e.touches[0].clientY - rect.top;
+                }
+            }, {passive: true});
+
+            heroSection.addEventListener('touchmove', (e) => {
+                if(window.matchMedia("(pointer: coarse)").matches) {
+                    const rect = heroSection.getBoundingClientRect();
+                    const currentX = e.touches[0].clientX - rect.left;
+                    const currentY = e.touches[0].clientY - rect.top;
+
+                    if (lastTouchX !== null && lastTouchY !== null) {
+                        const dx = currentX - lastTouchX;
+                        const dy = currentY - lastTouchY;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+                        if (distance > 2) {
+                            const segment = document.createElement('div');
+                            segment.classList.add('touch-trail-segment');
+                            segment.style.width = distance + 'px';
+                            segment.style.left = lastTouchX + 'px';
+                            segment.style.top = lastTouchY + 'px';
+                            segment.style.transform = `rotate(${angle}deg)`;
+
+                            const inner = document.createElement('div');
+                            inner.classList.add('touch-trail-inner');
+                            
+                            segment.appendChild(inner);
+                            heroSection.appendChild(segment);
+
+                            setTimeout(() => { segment.remove(); }, 400);
+
+                            lastTouchX = currentX;
+                            lastTouchY = currentY;
+                        }
+                    } else {
+                        lastTouchX = currentX;
+                        lastTouchY = currentY;
+                    }
+                }
+            }, {passive: true});
+
+            heroSection.addEventListener('touchend', () => {
+                lastTouchX = null;
+                lastTouchY = null;
+            }, {passive: true});
+        }
+    } // <--- ESTA FOI A CHAVE QUE FALTOU NO CÓDIGO ANTERIOR!
 
     // ==========================================
     // ANIMAÇÃO EA FC 26
@@ -186,15 +221,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (fabBtn && fabMenu) {
         fabBtn.addEventListener('click', () => {
-            // Alterna a classe que ativa as rotações CSS (Tailwind) no HTML
             fabBtn.classList.toggle('is-open');
             
             if (fabBtn.classList.contains('is-open')) {
-                // Mostrar o Menu de Botões (Desliza para cima)
                 fabMenu.classList.remove('opacity-0', 'translate-y-8', 'pointer-events-none');
                 fabMenu.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
             } else {
-                // Esconder o Menu (Desliza para baixo)
                 fabMenu.classList.add('opacity-0', 'translate-y-8', 'pointer-events-none');
                 fabMenu.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
             }
@@ -207,13 +239,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const customCursor = document.getElementById('custom-cursor');
     
     if (customCursor) {
-        // Faz a div seguir a posição exata do rato no ecrã
         document.addEventListener('mousemove', (e) => {
             customCursor.style.left = e.clientX + 'px';
             customCursor.style.top = e.clientY + 'px';
         });
 
-        // Muda a imagem do cursor ao passar em elementos clicáveis
         const clickables = document.querySelectorAll('a, button, .cursor-pointer');
         clickables.forEach(el => {
             el.addEventListener('mouseenter', () => customCursor.classList.add('pointer'));
