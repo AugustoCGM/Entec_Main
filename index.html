@@ -39,33 +39,45 @@
         </div>
     </nav>
 
-<!-- Seção Hero (Agora Dinâmica com Carrossel) -->
+<!-- Seção Hero (Carrossel Dinâmico) -->
     <section class="relative pt-32 pb-20 md:pt-48 md:pb-24 px-4 md:px-12 min-h-[90vh] flex flex-col justify-center bg-checkerboard border-b-4 border-black overflow-hidden">
         
         <!-- Wrapper do Carrossel -->
         <div class="w-full max-w-6xl mx-auto relative z-10 flex-grow flex flex-col justify-center">
             
-            <!-- Setas de Controlo Brutalistas -->
-            <button id="prev-hero" class="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 z-30 bg-white border-4 border-black brutal-shadow-sm hover-brutal w-10 h-10 md:w-14 md:h-14 flex items-center justify-center cursor-pointer">
-                <i data-lucide="arrow-left" class="w-6 h-6 md:w-8 md:h-8"></i>
-            </button>
-            <button id="next-hero" class="absolute right-0 md:right-4 top-1/2 -translate-y-1/2 z-30 bg-white border-4 border-black brutal-shadow-sm hover-brutal w-10 h-10 md:w-14 md:h-14 flex items-center justify-center cursor-pointer">
-                <i data-lucide="arrow-right" class="w-6 h-6 md:w-8 md:h-8"></i>
-            </button>
+            <!-- Logo Flutuante Inteligente (Estática e não bloqueia cliques) -->
+            <div id="floating-hero-logo" class="logo-state-center pointer-events-none">
+                <img src="./assets/logo-hero.png" alt="ENTEC E-Sports">
+            </div>
 
-            <!-- Máscara do Carrossel (Esconde o que está fora) -->
+            <!-- Setas de Controlo (Agora dentro de divs fixas para o botão não fugir do rato) -->
+            <div class="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 z-30">
+                <button id="prev-hero" class="bg-white border-4 border-black brutal-shadow-sm hover-brutal w-10 h-10 md:w-14 md:h-14 flex items-center justify-center cursor-pointer">
+                    <i data-lucide="arrow-left" class="w-6 h-6 md:w-8 md:h-8"></i>
+                </button>
+            </div>
+            <div class="absolute right-0 md:right-4 top-1/2 -translate-y-1/2 z-30">
+                <button id="next-hero" class="bg-white border-4 border-black brutal-shadow-sm hover-brutal w-10 h-10 md:w-14 md:h-14 flex items-center justify-center cursor-pointer">
+                    <i data-lucide="arrow-right" class="w-6 h-6 md:w-8 md:h-8"></i>
+                </button>
+            </div>
+
+            <!-- Máscara do Carrossel -->
             <div class="overflow-hidden w-full px-12 md:px-24 mb-8">
-                <!-- Pista do Carrossel (Move-se com JS) -->
+                <!-- Pista do Carrossel -->
                 <div id="hero-track" class="flex transition-transform duration-700 ease-in-out items-center">
                     
-                    <!-- Slide 1: Original (Logo Grande e Textos) -->
+                    <!-- Slide 1: Original (Mantém o espaço fantasma para a logo flutuante) -->
                     <div class="w-full flex-shrink-0 flex flex-col items-center text-center py-4">
                         <a href="https://www.instagram.com/uninassau.cg?stkn=czRxdHRma3d5dTlx" target="_blank" rel="noopener noreferrer" class="inline-block bg-white border-4 border-black px-4 py-2 mb-8 brutal-shadow-sm transform -rotate-2 hover-brutal cursor-pointer">
                             <img src="./assets/logo-uninassau.png" alt="UNINASSAU" class="h-6 md:h-8 object-contain">
                         </a>
-                        <div class="mb-10 transform hover:scale-105 transition-transform duration-300">
-                            <img src="./assets/logo-hero.png" alt="ENTEC E-Sports" class="h-32 md:h-48 object-contain drop-shadow-[6px_6px_0_rgba(0,0,0,1)]">
+                        
+                        <!-- Espaço fantasma: Mantém a altura da logo para não estragar o layout, pois a logo real está a flutuar por cima! -->
+                        <div class="mb-10 w-full flex justify-center pointer-events-none">
+                            <div class="h-32 md:h-48 w-64"></div> 
                         </div>
+
                         <div class="bg-[#fdfbf7] border-4 border-black p-3 md:px-6 inline-block brutal-shadow-sm transform skew-x-2">
                             <p class="text-lg md:text-xl font-bold uppercase">
                                 Desperte seu superpoder e <br class="hidden md:block"/> 
@@ -77,14 +89,7 @@
                     <!-- Slide 2: Imagem de Divulgação 1 -->
                     <div class="w-full flex-shrink-0 flex flex-col items-center justify-center py-10 px-2">
                         <div class="relative w-full max-w-3xl bg-white border-4 border-black brutal-shadow p-2 md:p-4">
-                            
-                            <!-- Cartão da Logo Recolhida (Canto Superior Esquerdo) -->
-                            <div class="absolute -top-6 -left-4 md:-top-8 md:-left-8 bg-[#00cc66] border-4 border-black brutal-shadow-sm px-4 py-2 transform -rotate-6 z-20 flex items-center justify-center">
-                                <img src="./assets/logo-hero.png" alt="ENTEC" class="h-8 md:h-12 object-contain drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">
-                            </div>
-
-                            <!-- Imagem do Post -->
-                            <!-- Guarde a imagem na pasta assets com o nome post-1.png -->
+                            <!-- Os cartõezinhos foram apagados daqui! A logo flutuante assume este espaço. -->
                             <img src="./assets/post-1.png" alt="Divulgação 1" class="w-full aspect-video object-cover border-2 border-black bg-gray-200">
                         </div>
                     </div>
@@ -92,14 +97,6 @@
                     <!-- Slide 3: Imagem de Divulgação 2 -->
                     <div class="w-full flex-shrink-0 flex flex-col items-center justify-center py-10 px-2">
                         <div class="relative w-full max-w-3xl bg-white border-4 border-black brutal-shadow p-2 md:p-4">
-                            
-                            <!-- Cartão da Logo Recolhida (Canto Superior Esquerdo) -->
-                            <div class="absolute -top-6 -left-4 md:-top-8 md:-left-8 bg-[#0055ff] border-4 border-black brutal-shadow-sm px-4 py-2 transform -rotate-6 z-20 flex items-center justify-center">
-                                <img src="./assets/logo-hero.png" alt="ENTEC" class="h-8 md:h-12 object-contain drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">
-                            </div>
-
-                            <!-- Imagem do Post -->
-                            <!-- Guarde a imagem na pasta assets com o nome post-2.png -->
                             <img src="./assets/post-2.png" alt="Divulgação 2" class="w-full aspect-video object-cover border-2 border-black bg-gray-200">
                         </div>
                     </div>
@@ -108,13 +105,13 @@
             </div>
 
             <!-- Indicadores (Pontos/Dots) -->
-            <div id="hero-dots" class="flex justify-center gap-3 mb-8">
-                <!-- O JS vai gerar as caixinhas aqui -->
+            <div id="hero-dots" class="flex justify-center items-center gap-4 mb-8">
+                <!-- O JS vai gerar as caixinhas e a estrela aqui -->
             </div>
             
         </div>
 
-        <!-- Botões Constantes Fixos (Agora usam href="#id" para descer na página) -->
+        <!-- Botões Constantes Fixos -->
         <div class="flex flex-col sm:flex-row gap-6 justify-center w-full relative z-20 mt-auto">
             <a href="#fc26" class="bg-[#0055ff] text-white relative inline-flex items-center justify-center px-10 py-4 font-black uppercase text-xl border-4 border-black brutal-shadow hover-brutal cursor-pointer">
                 Torneio EA FC 26

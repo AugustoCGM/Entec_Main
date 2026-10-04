@@ -2,51 +2,64 @@ document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
 
     // ==========================================
-    // CARROSSEL HERO (NOVO)
+    // CARROSSEL HERO (ATUALIZADO)
     // ==========================================
     const heroTrack = document.getElementById('hero-track');
     const prevHero = document.getElementById('prev-hero');
     const nextHero = document.getElementById('next-hero');
     const heroDots = document.getElementById('hero-dots');
+    const floatingLogo = document.getElementById('floating-hero-logo');
 
-    if (heroTrack && prevHero && nextHero && heroDots) {
+    if (heroTrack && prevHero && nextHero && heroDots && floatingLogo) {
         const slides = heroTrack.children;
         const totalSlides = slides.length;
         let currentHeroSlide = 0;
         let heroAutoPlay;
 
-        // Criar os indicadores (quadradinhos) brutalistas
+        // Criar os indicadores (todos como retângulos)
         for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('button');
-            // Usamos caixinhas quadradas em vez de bolinhas para manter o tema!
-            dot.classList.add('w-6', 'h-3', 'border-2', 'border-black', 'cursor-pointer', 'transition-colors', 'hover:bg-[#ff00ff]');
+            dot.classList.add('w-6', 'h-3', 'border-2', 'border-black', 'bg-white', 'transition-colors', 'cursor-pointer');
             dot.addEventListener('click', () => goToHeroSlide(i));
             heroDots.appendChild(dot);
         }
 
-        const updateHeroDots = () => {
+        const updateHeroUI = () => {
+            // Atualizar as cores dos retângulos
             Array.from(heroDots.children).forEach((dot, index) => {
+                // Limpa as cores antes de aplicar a nova
+                dot.classList.remove('bg-[#0055ff]', 'bg-[#ff00ff]', 'bg-white');
+
                 if (index === currentHeroSlide) {
-                    dot.classList.add('bg-[#ff00ff]');
-                    dot.classList.remove('bg-white');
+                    if (index === 0) {
+                        dot.classList.add('bg-[#0055ff]'); // Azul na página principal
+                    } else {
+                        dot.classList.add('bg-[#ff00ff]'); // Rosa nos posts
+                    }
                 } else {
-                    dot.classList.add('bg-white');
-                    dot.classList.remove('bg-[#ff00ff]');
+                    dot.classList.add('bg-white'); // Branco quando inativo
                 }
             });
+
+            // Atualizar a Logo Flutuante
+            if (currentHeroSlide === 0) {
+                floatingLogo.classList.add('logo-state-center');
+                floatingLogo.classList.remove('logo-state-corner');
+            } else {
+                floatingLogo.classList.add('logo-state-corner');
+                floatingLogo.classList.remove('logo-state-center');
+            }
         };
 
         const goToHeroSlide = (index) => {
-            if (index < 0) index = totalSlides - 1; // Volta para o último
-            if (index >= totalSlides) index = 0;    // Volta para o primeiro
+            if (index < 0) index = totalSlides - 1; 
+            if (index >= totalSlides) index = 0;    
             
             currentHeroSlide = index;
-            // Move a pista em incrementos de 100%
             heroTrack.style.transform = `translateX(-${currentHeroSlide * 100}%)`;
-            updateHeroDots();
+            updateHeroUI(); 
         };
 
-        // Eventos de clique nas setas
         prevHero.addEventListener('click', () => {
             goToHeroSlide(currentHeroSlide - 1);
             resetHeroAutoPlay();
@@ -57,10 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
             resetHeroAutoPlay();
         });
 
-        // Inicia os dots no slide 0
-        updateHeroDots();
+        // Configuração Inicial
+        updateHeroUI();
 
-        // Autoplay do carrossel a cada 6 segundos
         const startHeroAutoPlay = () => {
             heroAutoPlay = setInterval(() => {
                 goToHeroSlide(currentHeroSlide + 1);
@@ -72,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
             startHeroAutoPlay();
         };
 
-        // Pausar autoplay quando o rato passa por cima (desktop)
         heroTrack.parentElement.addEventListener('mouseenter', () => clearInterval(heroAutoPlay));
         heroTrack.parentElement.addEventListener('mouseleave', startHeroAutoPlay);
 
