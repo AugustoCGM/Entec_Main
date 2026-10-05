@@ -95,7 +95,6 @@ body {
 
 /* Estado 0: Página Principal (Mobile e Desktop) */
 .logo-state-center {
-    /* CORREÇÃO CHAVE: Posicionamento ajustado para o centro real dos cartões verticais (4:5) */
     top: 45%; 
     left: 50%;
     transform: translate(-50%, -50%) rotate(0deg); 
@@ -126,7 +125,6 @@ body {
 /* Comportamento Desktop (A partir de 768px) */
 @media (min-width: 768px) {
     .logo-state-center {
-        /* Desliza ligeiramente para baixo no desktop para acompanhar a altura extra */
         top: 48%;
     }
     .logo-state-center img {
@@ -138,9 +136,10 @@ body {
     .logo-state-corner {
         opacity: 1;
         pointer-events: auto;
-        top: 1.5rem;
-        left: 4rem;
-        transform: translate(0, 0) rotate(-6deg) scale(1);
+        top: 45%;
+        left: 50%;
+        /* CÁLCULO INTELIGENTE: A logo subtrai 170px (metade da largura do poster) e 200px (metade da altura) a partir do centro, "agarrando-se" à quina exata do cartão! */
+        transform: translate(calc(-50% - 170px), calc(-50% - 200px)) rotate(-6deg) scale(1);
         background-color: white;
         border: 4px solid black;
         padding: 0.5rem 1rem;
